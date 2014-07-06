@@ -3,7 +3,7 @@ APOMW
 
 Article Pagination Of Mobile Web
 
-移动端Web的文章排版
+移动端Web的文章排版，主要用于 SPA(Single Page Application) 形态的阅读产品中。
 
 
 ## 功能
