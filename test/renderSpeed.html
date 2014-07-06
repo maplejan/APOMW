@@ -1,0 +1,140 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <title></title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="../css/reset.css"/>
+    <style type="text/css">
+        .article {
+
+        }
+
+        .article_page {
+            padding: 30px 0;
+            background-color: #ffffee;
+        }
+
+        .article_page:nth-child(even) {
+            background-color: #ffeeff;
+        }
+
+        .article_page p {
+            padding: 0 30px;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+
+<div id="article"></div>
+
+<script type="text/javascript" src="../js/requirejs/2.1.14/require.js"></script>
+<script type="text/javascript">
+    require.config({
+        baseUrl: '../js/',
+        paths: {
+            'Zepto': 'zepto/1.1.3/zepto'
+        },
+        shim: {
+            'Zepto': {
+                exports: 'Zepto'
+            }
+        }
+    });
+
+    define('main', function (require) {
+        var $ = require('Zepto');
+        var klass = require('base/klass');
+        var FontStyleController = require('app/FontStyleController');
+        var renderPage = require('app/renderPage');
+
+        function main () {
+            var $article = $('#article');
+            var fontStyleController = new FontStyleController();
+
+            function render(article) {
+                var d0 = 1 * new Date();
+                var htmlStr = renderPage({
+                    article: article,
+                    pageClass: 'article_page',
+                    fontStyleStatus: fontStyleController.getStatus()
+                });
+                var t0 = 1 * new Date() - d0;
+                $article.css(fontStyleController.getStatus().style);
+                $article.html(htmlStr);
+                console.log(t0 + 'ms');
+                return t0 + 'ms';
+            }
+
+            var results = [[], []];
+            var x = 0;
+
+            function showResults() {
+                document.write('First Render: <br>');
+                document.write(JSON.stringify(results[0]) + '<br>');
+                document.write('Second Render: <br>');
+                document.write(JSON.stringify(results[1]) + '<br>');
+            }
+
+            function t(n) {
+                var num = n;
+                if (num > 5) {
+                    if (x === 0) {
+                        x = 1;
+                        num = 0
+                    } else {
+                        showResults();
+                        return ;
+                    }
+                }
+                $.ajax({
+                    url: '../data/' + num,
+                    type: 'get',
+                    dataType: 'text',
+                    success: function (data) {
+                        console.log(num);
+
+                        results[x][num] = {};
+                        fontStyleController.set('normal');
+                        results[x][num].normal = render(data);
+
+                        setTimeout(function () {
+                            fontStyleController.set('big');
+                            results[x][num].big = render(data);
+                        }, 1500);
+
+                        setTimeout(function () {
+                            fontStyleController.set('small');
+                            results[x][num].small = render(data);
+                        }, 3000);
+                        setTimeout(function () {
+                            t(++num);
+                        }, 4500);
+                    }
+                });
+            }
+
+            t(0);
+        }
+
+        return function () {
+            $(function ($) {
+                main();
+            });
+        };
+    });
+
+    require(['main'], function (main) {
+        main();
+    });
+</script>
+</body>
+</html>

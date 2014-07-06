@@ -1,0 +1,30 @@
+/* Reset CSS */
+/* ------------------------------ */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display: block; }
+body, h1, h2, h3, h4, h5, h6, p, div, ul, ol, li, dl, dt, dd, h1 { margin: 0; padding: 0; }
+html {
+    background-color: #fff;
+    font: 14px/1.5 "arial", "microsoft yahei", "\5b8b\4f53";
+    -webkit-text-size-adjust: none;
+    -moz-text-size-adjust: none;
+    -o-text-size-adjust: none;
+    -ms-text-size-adjust: none;
+    /*text-size-adjust: none;*/
+}
+li { list-style: none; }
+img { border: none; margin: 0; padding: 0; }
+a { text-decoration: none; }
+h1, h2, h3, h4, h5, h6 { font-size: 100%; font-weight: normal; }
+button, input, select, textarea {
+    /*  margin: 0;
+      font-size: 100%;
+      vertical-align: middle;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      -o-appearance: none;
+      -ms-appearance: none;*/
+    /*appearance: none;*/
+}
+button, input { *overflow: visible; line-height: normal; }
+textarea { overflow: auto; vertical-align: top; }
+/* ------------------------------ */
