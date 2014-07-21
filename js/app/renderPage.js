@@ -30,6 +30,7 @@ define(['Zepto', 'base/charTool', 'app/ArticleModel'], function ($, charTool, Ar
         var lineCharCounter = 0;    // 每行字数计数器
         var spaceWidth = 0;         // 剩余空白区域宽度
         var curChar = '';           // 当前检索的字符
+        var wordNum = 0;            // 文字编号
 
         for (var i = 0, l1 = articleModel.length; i < l1; i++) {
             var j = 0,
@@ -41,7 +42,7 @@ define(['Zepto', 'base/charTool', 'app/ArticleModel'], function ($, charTool, Ar
                     lineWidth += articleModel[i][j].width;
                     if (lineWidth <= pageW) {   // 每行未满
                         //lineStr += '<span data-key="'+ j +'">' + curChar + '</span>';
-                        lineStr += wrapChar(curChar, j);
+                        lineStr += wrapChar(curChar, wordNum++);
                         lineCharCounter += curChar.length;
                         j++;
                     } else {    // 每行已满
@@ -49,7 +50,7 @@ define(['Zepto', 'base/charTool', 'app/ArticleModel'], function ($, charTool, Ar
                         spaceWidth = pageW - lineWidth + articleModel[i][j].width;
                         if (charTool.isEndChar(curChar)) {
                             //lineStr += '<span data-key="'+ j +'">' + curChar + '</span>';
-                            lineStr += wrapChar(curChar, j);
+                            lineStr += wrapChar(curChar, wordNum++);
                             spaceWidth = spaceWidth - articleModel[i][j].width;
                             lineCharCounter += curChar.length;
                             j++;
